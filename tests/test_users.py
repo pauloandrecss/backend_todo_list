@@ -25,7 +25,7 @@ def test_create_user_username_already_exists(client, user):
     response = client.post(
         '/users/',
         json={
-            'username': 'Teste',
+            'username': user.username,
             'email': 'test@test.com',
             'password': 'test',
         },
@@ -40,7 +40,7 @@ def test_create_user_email_already_exists(client, user):
         '/users/',
         json={
             'username': 'Test',
-            'email': 'teste@test.com',
+            'email': user.email,
             'password': 'test',
         },
     )
@@ -63,13 +63,13 @@ def test_read_user_with_users(client, user):
 
 
 def test_read_user_detail(client, user):
-    response = client.get('/users/1')
+    response = client.get(f'/users/{user.id}')
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
-        'username': 'Teste',
-        'email': 'teste@test.com',
-        'id': 1,
+        'username': user.username,
+        'email': user.email,
+        'id': user.id,
     }
 
 
@@ -99,9 +99,9 @@ def test_update_user(client, user, token):
     }
 
 
-def test_update_user_error_not_found(client, user, token):
+def test_update_user_with_wrong_user(client, other_user, token):
     response = client.put(
-        '/users/7',
+        f'/users/{other_user.id}',
         headers={'Authorization': f'Bearer {token}'},
         json={
             'username': 'bob',
@@ -124,9 +124,9 @@ def test_delete_user(client, user, token):
     assert response.json() == {'message': 'User deleted'}
 
 
-def test_delete_user_error_not_found(client, user, token):
+def test_delete_user_error_not_found(client, other_user, token):
     response = client.delete(
-        '/users/7',
+        f'/users/{other_user.id}',
         headers={'Authorization': f'Bearer {token}'},
     )
 
