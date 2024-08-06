@@ -41,3 +41,9 @@ Para testar em sua máquina, siga os passos abaixo:
 
    ```url
    http://127.0.0.1:8000/docs
+
+obs: Caso ocorra um erro de permissão do arquivo entrypoint.sh execute o seguinte comando e reinicie o docker:
+
+   ```
+   RUN chmod 0700 entrypoint.sh
+   docker compose up --build
