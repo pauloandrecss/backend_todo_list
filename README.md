@@ -45,5 +45,5 @@ Para testar em sua máquina, siga os passos abaixo:
 obs: Caso ocorra um erro de permissão do arquivo entrypoint.sh execute o seguinte comando e reinicie o docker:
 
    ```
-   RUN chmod 0700 entrypoint.sh
+   chmod +x entrypoint.sh
    docker compose up --build
